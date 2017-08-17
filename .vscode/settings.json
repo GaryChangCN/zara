@@ -1,0 +1,10 @@
+{
+    "tslint.enable": true,
+    "tslint.configFile": "tslint.json",
+    "files.exclude": {
+        "**/.DS_Store": true,
+        "**/*.js": {
+            "when": "$(basename).ts"
+        }
+    }
+}
