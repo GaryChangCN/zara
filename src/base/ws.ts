@@ -1,6 +1,19 @@
+import * as uuid from 'uuid'
 import * as Websocket from 'ws'
-import {host, port} from '../config'
+import { port } from '../config'
 
-const ws = new WebSocket(`ws://${host}/ws:${port}`)
+const websocket = () => {
+    const WServer = Websocket.Server
+    const wss = new WServer({ port })
+    wss.on('connection', (ws) => {
+        ws.on('message', (msg) => {
+            console.log(msg)
+        })
+        ws.on('error', (msg) => {
+            console.log(msg)
+        })
+        ws.send('so')
+    })
+}
 
-export default ws
+export default websocket

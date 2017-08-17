@@ -14,7 +14,8 @@
         "space-before-function-paren": false,
         "quotemark": [
             true, "single"
-        ]
+        ],
+        "no-empty": false
     },
     "rulesDirectory": []
 }
