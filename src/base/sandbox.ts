@@ -1,10 +1,7 @@
 class Sandbox {
-    static instance = null
-    constructor () {
-        if (Sandbox.instance) {
-            return Sandbox.instance
-        }
-        Sandbox.instance = this
+    private env = null
+    constructor (env, ws) {
+        this.env = env
     }
 
     async foo (value) {

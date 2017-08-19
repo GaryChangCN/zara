@@ -1,15 +1,14 @@
 {
   "name": "zara",
   "version": "1.0.0",
-  "description": "",
+  "description": "rpc lib",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "ts-watch": "node node_modules/typescript/lib/tsc.js -w src/index.ts"
+    "dev": "node_modules/nokit/bin/no.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "garychangcn",
+  "license": "MIT",
   "devDependencies": {
     "nokit": "^0.25.1",
     "tslint": "^5.6.0",

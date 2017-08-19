@@ -1,7 +1,5 @@
 import * as uuid from 'uuid'
 import * as WS from 'ws'
-import { port } from '../config'
-import SandBox from './sandbox'
 
 interface Req {
     type: 'request'
@@ -22,7 +20,7 @@ class Rpc {
     private ENV: any
     private interval: any
 
-    constructor () {
+    constructor (port, Sandbox) {
         if (Rpc.instance) {
             return Rpc.instance
         }
@@ -33,7 +31,7 @@ class Rpc {
             env.userId = uid
             ws.userId = uid
             ws.isAlive = true
-            ws.sandbox = new SandBox(env, ws)
+            ws.sandbox = new Sandbox(env, ws)
 
             ws.on('message', async (opt: string) => {
                 const req: Req = JSON.parse(opt)
@@ -84,4 +82,7 @@ class Rpc {
     }
 }
 
-export default Rpc
+
+export default (port, Sandbox) => {
+    return new Rpc(port, Sandbox)
+}
