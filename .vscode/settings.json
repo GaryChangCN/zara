@@ -6,5 +6,7 @@
         "**/*.js": {
             "when": "$(basename).ts"
         }
-    }
+    },
+    "tslint.run": "onType",
+    "typescript.tsdk": "./node_modules/typescript/lib"
 }

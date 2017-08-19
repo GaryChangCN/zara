@@ -16,11 +16,12 @@ module.exports = (task, option) => {
     task('typescript', ['tsw'])
 
     task('tsw', 'watch typescript', () => {
-        kit.spawn('tsc', [
+        kit.spawn('node_modules/typescript/bin/tsc', [
             '-w',
             './src/index.ts'
         ],{
             prefix: 'TSC | :green'
         })
     })
+
 }
