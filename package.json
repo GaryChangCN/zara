@@ -5,15 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "ts-watch": "node_modules/typescript/bin/tsc -w src/index.ts"
+    "ts-watch": "node node_modules/typescript/lib/tsc.js -w src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "nokit": "^0.25.1",
-    "tslint": "^5.6.0",
-    "typescript": "^2.4.2"
+    "tslint": "^5.6.0"
   },
   "dependencies": {
     "@types/uuid": "^3.4.0",
