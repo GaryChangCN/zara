@@ -16,14 +16,13 @@ const zaraError = (ws, err) => {
     }))
 }
 
-class Rpc extends SandBox {
+class Rpc {
     static instance = null
     private wss: WS.Server
     private ENV: any
     private interval: any
 
     constructor () {
-        super ()
         if (Rpc.instance) {
             return Rpc.instance
         }
@@ -34,6 +33,7 @@ class Rpc extends SandBox {
             env.userId = uid
             ws.userId = uid
             ws.isAlive = true
+            ws.sandbox = new SandBox(env, ws)
 
             ws.on('message', async (opt: string) => {
                 const req: Req = JSON.parse(opt)
@@ -50,7 +50,7 @@ class Rpc extends SandBox {
                 const funcName = zara.shift()
                 const params = zara
                 try {
-                    const ret = await super[funcName](...params)
+                    const ret = await ws.sandbox[funcName](...params)
                     ws.send(JSON.stringify({
                         type: 'response',
                         id,
@@ -73,6 +73,7 @@ class Rpc extends SandBox {
             clients.forEach((ws) => {
                 const {isAlive, userId} = ws
                 if (isAlive === false) {
+                    ws.sandbox = null
                     return ws.terminate()
                 }
                 ws.ping('', false, true)
