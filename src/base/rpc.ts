@@ -55,7 +55,7 @@ class Rpc {
                         zara: ret
                     }))
                 } catch (error) {
-                    return zaraError(ws, 'sandbox has not define this function')
+                    return zaraError(ws, error)
                 }
             })
             ws.on('pong', () => {

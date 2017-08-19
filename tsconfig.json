@@ -5,7 +5,7 @@
         "sourceMap": true,
         "outDir": "dist",
         "lib": [
-            "ES2015"
+            "es2015"
         ]
     },
     "exclude": [
