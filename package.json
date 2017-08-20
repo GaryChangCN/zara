@@ -2,9 +2,10 @@
   "name": "zara",
   "version": "1.0.0",
   "description": "rpc lib",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "node_modules/nokit/bin/no.js"
+    "dev": "node_modules/nokit/bin/no.js",
+    "build": "node_modules/nokit/bin/no.js build"
   },
   "keywords": [],
   "author": "garychangcn",

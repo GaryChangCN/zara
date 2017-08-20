@@ -3,7 +3,9 @@ const kit = require('nokit')
 module.exports = (task, option) => {
     option('-w, --watch', 'test------', 'world')
 
-    task('default', ['typescript', 'file-change'], 'default task', (opts) => {
+    task('default', ['dev'], 'default task')
+
+    task('dev', ['typescript', 'file-change'], 'default task', (opts) => {
         kit.log('>>>>>> start >>>>>')
     })
 
@@ -12,7 +14,7 @@ module.exports = (task, option) => {
     })
 
     task('file-change', 'reload node file', () => {
-        kit.spawn('noe', ['-w', 'src/**/*.js', 'src/index.js'], {
+        kit.spawn('noe', ['-w', 'src/**/*.js', 'src/example/server.js'], {
             prefix: 'NOE | :blue'
         })
     })
@@ -22,7 +24,7 @@ module.exports = (task, option) => {
     task('tsw', 'watch typescript', () => {
         kit.spawn('node_modules/typescript/bin/tsc', [
             '-w',
-            './src/index.ts',
+            './src/example/server.ts',
             '--lib',
             'es2015'
         ],{

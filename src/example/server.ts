@@ -1,3 +1,10 @@
+import { Rpc } from '../index'
+
+process.on('uncaughtException', (err) => {
+    // tslint:disable-next-line:no-console
+    console.error(err)
+})
+
 class Sandbox {
     private env = null
     constructor (env, ws) {
@@ -14,4 +21,4 @@ class Sandbox {
     }
 }
 
-export default Sandbox
+const sb = Rpc(3189, Sandbox)
