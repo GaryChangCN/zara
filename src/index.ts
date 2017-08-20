@@ -1,4 +1,5 @@
-import rpc from './rpc'
+import ServerRpc from './server'
+import ClientRpc from './client'
 
-export const Rpc = rpc
-
+export const Server = ServerRpc
+export const Client = ClientRpc

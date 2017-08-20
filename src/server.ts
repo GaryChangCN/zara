@@ -14,15 +14,15 @@ const zaraError = (ws, err) => {
     }))
 }
 
-class Rpc {
+class Server {
     static instance = null
     private wss: WS.Server
     private ENV: any
     private interval: any
 
     constructor (port, Sandbox) {
-        if (Rpc.instance) {
-            return Rpc.instance
+        if (Server.instance) {
+            return Server.instance
         }
         this.wss = new WS.Server({ port })
         this.wss.on('connection', (ws) => {
@@ -34,7 +34,12 @@ class Rpc {
             ws.sandbox = new Sandbox(env, ws)
 
             ws.on('message', async (opt: string) => {
-                const req: Req = JSON.parse(opt)
+                let req: Req
+                try {
+                    req = JSON.parse(opt)
+                }catch (err) {
+                    return zaraError(ws, 'Request is not legal json')
+                }
                 const {type, id, zara} = req
                 if (!id) {
                     return zaraError(ws, 'Request must contain id')
@@ -64,7 +69,10 @@ class Rpc {
             ws.on('error', (err) => {
                 throw err
             })
-            ws.send(uid)
+            ws.send(JSON.stringify({
+                type: 'connection',
+                userId: uid
+            }))
         })
         this.interval = setInterval(() => {
             const clients = this.wss.clients
@@ -78,11 +86,11 @@ class Rpc {
                 ws.isAlive = false
             })
         }, 5000)
-        Rpc.instance = this
+        Server.instance = this
     }
 }
 
 
-export default (port, Sandbox) => {
-    return new Rpc(port, Sandbox)
+export default (port = 3189, Sandbox) => {
+    return new Server(port, Sandbox)
 }

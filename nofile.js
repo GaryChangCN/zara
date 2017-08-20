@@ -5,7 +5,7 @@ module.exports = (task, option) => {
 
     task('default', ['dev'], 'default task')
 
-    task('dev', ['typescript', 'file-change'], 'default task', (opts) => {
+    task('dev', ['typescript', 'noe'], 'default task', (opts) => {
         kit.log('>>>>>> start >>>>>')
     })
 
@@ -13,8 +13,8 @@ module.exports = (task, option) => {
         kit.spawn('node_modules/typescript/bin/tsc')
     })
 
-    task('file-change', 'reload node file', () => {
-        kit.spawn('noe', ['-w', 'src/**/*.js', 'src/example/server.js'], {
+    task('noe', 'reload node file', () => {
+        kit.spawn('noe', ['-w', 'src/**/*.js', 'src/index.js'], {
             prefix: 'NOE | :blue'
         })
     })
@@ -24,7 +24,7 @@ module.exports = (task, option) => {
     task('tsw', 'watch typescript', () => {
         kit.spawn('node_modules/typescript/bin/tsc', [
             '-w',
-            './src/example/server.ts',
+            './src/index.ts',
             '--lib',
             'es2015'
         ],{
