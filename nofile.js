@@ -14,7 +14,7 @@ module.exports = (task, option) => {
     })
 
     task('noe', 'reload node file', () => {
-        kit.spawn('noe', ['-w', 'src/**/*.js', 'src/index.js'], {
+        kit.spawn('node_modules/nokit/bin/noe.js', ['-w', 'src/**/*.js', 'src/index.js'], {
             prefix: 'NOE | :blue'
         })
     })

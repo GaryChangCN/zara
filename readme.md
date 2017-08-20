@@ -85,6 +85,18 @@ in order to catch error you can add the follow code in server and client
 
 or just use `try...catch` statement
 
+## develop
+
+> dev
+
+`git clone https://github.com/GaryChangCN/zara.git`
+and `npm install` or `yarn install`
+then `npm run dev` or `yarn run dev`
+
+> build
+
+`npm run build` or `yarn run build`
+
 ## LICENSE
 
 [MIT](./LICENSE)
