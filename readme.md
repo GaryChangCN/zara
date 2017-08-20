@@ -58,7 +58,7 @@ to pass params is use `${}`
     ```
 
     ```js
-        import {Client} from 'zara'
+        import Client from 'zara/dist/client'
 
         const url = 'ws://localhost:3189'
         const { call } = Client(url)

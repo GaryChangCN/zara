@@ -32,7 +32,7 @@ class Client {
         this.ws.send(JSON.stringify({
             type: 'request',
             id,
-            zara:litervals
+            zara: litervals
         }))
         return new Promise((resolve) => {
             this.cb[id] = resolve
