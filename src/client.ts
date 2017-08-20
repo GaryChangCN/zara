@@ -9,25 +9,30 @@ class Client {
         if (Client.instance) {
             return Client.instance
         }
-        this.ws = new Websocket(url)
-        this.ws.on('message', (data) => {
+        this.ws = new WebSocket(url)
+        this.ws.onmessage = (ret) => {
             let res
             try {
-                res = JSON.parse(data)
+                res = JSON.parse(ret.data)
             } catch (err) {
                 throw new Error('Response is not legal json')
             }
             this.sloat(res)
-        })
+        }
+        this.ws.onerror = (err) => {
+            throw err
+        }
         Client.instance = this
     }
-    call (litervals, ...params) {
-        const funcName = litervals[0].replace(/^\(/, '').trim()
+    call () {
+        const litervals = Array.from(arguments)
+        const funcName = litervals[0][0].replace(/^\(/, '').trim()
+        litervals[0] = funcName
         const id = uuid.v1()
         this.ws.send(JSON.stringify({
             type: 'request',
             id,
-            zara: [funcName, ...params]
+            zara:litervals
         }))
         return new Promise((resolve) => {
             this.cb[id] = resolve

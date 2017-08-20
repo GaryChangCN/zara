@@ -1,6 +1,6 @@
 {
   "name": "zara",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "rpc lib",
   "main": "dist/index.js",
   "scripts": {
@@ -8,7 +8,8 @@
     "build": "node_modules/nokit/bin/no.js build"
   },
   "repository": {
-    "git": "https://github.com/GaryChangCN/zara"
+      "type": "git",
+      "url": "https://github.com/GaryChangCN/zara"
   },
   "keywords": [],
   "author": "garychangcn",
