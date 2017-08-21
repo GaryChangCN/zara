@@ -25,6 +25,9 @@ module.exports = (task, option) => {
         kit.spawn('node_modules/typescript/bin/tsc', [
             '-w',
             './src/index.ts',
+            './src/client.ts',
+            '--lib',
+            'dom',
             '--lib',
             'es2015'
         ],{

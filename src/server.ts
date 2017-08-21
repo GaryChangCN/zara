@@ -2,7 +2,7 @@ import * as uuid from 'uuid'
 import * as WS from 'ws'
 
 interface Req {
-    type: 'request'
+    type: string
     id: string
     zara: string[]
 }
@@ -41,33 +41,39 @@ class Server {
                     return zaraError(ws, 'Request is not legal json')
                 }
                 const {type, id, zara} = req
-                if (!id) {
-                    return zaraError(ws, 'Request must contain id')
+                switch (type) {
+                    case 'request':
+                        if (!id) {
+                            return zaraError(ws, 'Request must contain id.')
+                        }
+                        if (!zara) {
+                            return zaraError(ws, 'Request must contain zara.')
+                        }
+                        if (type !== 'request') {
+                            return zaraError(ws, 'Request type must corrent.')
+                        }
+                        const funcName = zara.shift()
+                        const params = zara
+                        try {
+                            const ret = await ws.sandbox[funcName](...params)
+                            ws.send(JSON.stringify({
+                                type: 'response',
+                                id,
+                                zara: ret
+                            }))
+                        } catch (error) {
+                            return zaraError(ws, error)
+                        }
+                        break
+                    case 'pong':
+                        ws.isAlive = true
+                        break
+                    default:
+                        return zaraError(ws, 'Unknow type.')
                 }
-                if (!zara) {
-                    return zaraError(ws, 'Request must contain zara')
-                }
-                if (type !== 'request') {
-                    return zaraError(ws, 'Request type must corrent')
-                }
-                const funcName = zara.shift()
-                const params = zara
-                try {
-                    const ret = await ws.sandbox[funcName](...params)
-                    ws.send(JSON.stringify({
-                        type: 'response',
-                        id,
-                        zara: ret
-                    }))
-                } catch (error) {
-                    return zaraError(ws, error)
-                }
-            })
-            ws.on('pong', () => {
-                ws.isAlive = true
             })
             ws.on('error', (err) => {
-                throw err
+                zaraError(ws, err)
             })
             ws.send(JSON.stringify({
                 type: 'connection',
@@ -77,12 +83,13 @@ class Server {
         this.interval = setInterval(() => {
             const clients = this.wss.clients
             clients.forEach((ws) => {
-                const {isAlive, userId} = ws
-                if (isAlive === false) {
+                if (!ws.isAlive) {
                     ws.sandbox = null
                     return ws.terminate()
                 }
-                ws.ping('', false, true)
+                ws.send(JSON.stringify({
+                    type: 'ping'
+                }))
                 ws.isAlive = false
             })
         }, 5000)

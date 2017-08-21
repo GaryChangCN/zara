@@ -5,6 +5,7 @@ class Client {
     ws: any
     userId: string
     private cb: any = {}
+    private interval: any
     constructor (url = 'ws://localhost:3189') {
         if (Client.instance) {
             return Client.instance
@@ -15,12 +16,15 @@ class Client {
             try {
                 res = JSON.parse(ret.data)
             } catch (err) {
-                throw new Error('Response is not legal json')
+                throw new Error('Response is not legal json.')
             }
             this.sloat(res)
         }
         this.ws.onerror = (err) => {
-            throw err
+            throw new Error(err)
+        }
+        this.ws.onclose = () => {
+            throw new Error('socket is disconnected please refresh browser.')
         }
         Client.instance = this
     }
@@ -40,7 +44,7 @@ class Client {
     }
     private sloat (res) {
         if (!res.type) {
-            throw new Error('Zara response must contain type')
+            throw new Error('Zara response must contain type.')
         }
         switch (res.type) {
             case 'error':
@@ -53,8 +57,13 @@ class Client {
             case 'connection':
                 this.userId = res.userId
                 break
+            case 'ping':
+                this.ws.send(JSON.stringify({
+                    type: 'pong'
+                }))
+                break
             default:
-                throw new Error('Unknow zara type')
+                throw new Error('Unknow zara type.')
         }
     }
 }
