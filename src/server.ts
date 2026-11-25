@@ -14,9 +14,15 @@ const zaraError = (ws, err) => {
     }))
 }
 
+class RpcSocket extends WS {
+    userId: string
+    isAlive: boolean
+    sandbox: any
+}
+
 class Server {
     static instance = null
-    private wss: WS.Server
+    private wss: WS.Server<typeof RpcSocket>
     private ENV: any
     private interval: any
 
@@ -24,7 +30,7 @@ class Server {
         if (Server.instance) {
             return Server.instance
         }
-        this.wss = new WS.Server({ port })
+        this.wss = new WS.Server({ port, WebSocket: RpcSocket })
         this.wss.on('connection', (ws) => {
             const env: any = {}
             const uid = uuid.v1()
@@ -33,10 +39,11 @@ class Server {
             ws.isAlive = true
             ws.sandbox = new Sandbox(env, ws)
 
-            ws.on('message', async (opt: string) => {
+            ws.on('message', async (opt) => {
                 let req: Req
                 try {
-                    req = JSON.parse(opt)
+                    const message = Array.isArray(opt) ? Buffer.concat(opt) : Buffer.from(opt as ArrayBuffer)
+                    req = JSON.parse(message.toString())
                 }catch (err) {
                     return zaraError(ws, 'Request is not legal json')
                 }

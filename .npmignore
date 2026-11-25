@@ -2,6 +2,5 @@ node_modules
 src
 .vscode
 .gitignore
-nofile.js
-tslint.json
+test
 yarn.lock

@@ -1,5 +1,5 @@
 node_modules
 *.js
-!nofile.js
+!test/*.js
 !.gitkeep
 dist
