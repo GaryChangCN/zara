@@ -91,11 +91,13 @@ or just use `try...catch` statement
 
 `git clone https://github.com/GaryChangCN/zara.git`
 and `npm install` or `yarn install`
-then `npm run dev` or `yarn run dev`
+then `npm run dev` or `yarn run dev` to compile in watch mode.
 
 > build
 
 `npm run build` or `yarn run build`
+
+Run `npm test` on Node.js 22 or later to build and exercise a local RPC round trip.
 
 ## LICENSE
 
